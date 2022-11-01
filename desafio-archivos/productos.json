@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Teclado",
+    "price": 5000,
+    "id": 1
+  },
+  {
+    "title": "Auriculares",
+    "price": 8000,
+    "id": 2
+  }
+]
