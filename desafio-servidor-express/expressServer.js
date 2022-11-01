@@ -13,7 +13,7 @@ app.get("/", (request, response) => {
 });
 
 app.get("/productos", (request, response) => {
-    response.send(productos);
+    response.send(archivito.getAll());
 });
 
 app.get("/productoRandom", (request, response) => {
