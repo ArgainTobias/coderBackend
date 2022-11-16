@@ -17,27 +17,33 @@ router.get("/:id", (req, res) => {
   else
     res
       .status(400)
-      .send({ message: "no se ha encontrado un producto con ese id" });
+      .send({ message: "No se ha encontrado un producto con ese id" });
 });
 
 router.post("/", (req, res) => {
   let producto = req.body;
-  producto.id = productos[productos.length - 1].id + 1;
-  productos.push(producto);
-  res.send({ productos });
+  let esta = productos.some((prod)=>prod.nombre === producto.nombre);
+  if(!esta){
+    producto.id = productos[productos.length - 1].id + 1;
+    producto.precio = parseInt(producto.precio);
+    productos.push(producto);
+    res.send( productos );
+  }else res.send({message:"Ese producto ya se encuentra disponible"})
 });
 
 router.put("/:id", (req, res) => {
   let producto = productos.find((p) => p.id === parseInt(req.params.id));
   if (producto) {
     let nuevoProducto = req.body;
+    nuevoProducto.precio = parseInt(nuevoProducto.precio);
+    nuevoProducto.id = parseInt(nuevoProducto.id);
     let indice = productos.indexOf(producto);
     productos.splice(indice, 1, nuevoProducto);
     res.send(productos);
   } else
     res
       .status(400)
-      .send({ message: "no se ha encontrado un producto con ese id" });
+      .send({ message: "No se ha encontrado un producto con ese id" });
 });
 
 router.delete("/:id", (req, res) => {
@@ -45,12 +51,12 @@ router.delete("/:id", (req, res) => {
   if (producto){
     let indice = productos.indexOf(producto);
     productos.splice(indice, 1);
-    res.send(productos);
+    res.send({message:"El producto ha sido eliminado con éxito", productos});
   }
   else
     res
       .status(400)
-      .send({ message: "no se ha encontrado un producto con ese id" });
+      .send({ message: "No se ha encontrado un producto con ese id" });
 });
 
 module.exports = router;
