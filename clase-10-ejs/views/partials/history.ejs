@@ -1,0 +1,11 @@
+<% if (users.length > 0) { %>
+    <% users.forEach(element => { %>
+     <div>
+        <p><%= element.fname %> </p>
+        <p><%= element.lname %> </p>
+        <p><%= element.age %> </p>
+     </div>
+    <% }) %>
+<% } else {%>
+    <h4>No se encontraron datos</h4>
+<% } %>
