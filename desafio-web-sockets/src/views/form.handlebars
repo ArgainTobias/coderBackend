@@ -1,0 +1,25 @@
+<h2>Agregar producto</h2>
+<form action="/" method="post">
+    <input type="text" name="nombre"  placeholder="nombre...">
+    <input type="number" name="precio" placeholder="precio...">
+    <input type="text" name="img" placeholder="url imagen...">
+    <input type="submit">
+</form>
+<div>
+    {{#if hay}}
+        {{#each productos}}
+            <div style="display: flex; justify-content:space-around">
+                <p>{{this.nombre}}</p>
+                <p>${{this.precio}}</p>
+                <img src={{this.img}} alt={{this.nombre}} style="height: 120px;">
+            </div>
+        {{/each}}
+        {{else}}
+        <h4>No hay productos</h4>
+    {{/if}}
+</div>
+<section>
+    <h3>Chat</h3>
+    <input type="text" id="chatBox"></input>
+    <div id="history"></div>
+</section>
