@@ -1,25 +1,28 @@
-<h2>Agregar producto</h2>
-<form action="/" method="post">
-    <input type="text" name="nombre"  placeholder="nombre...">
-    <input type="number" name="precio" placeholder="precio...">
-    <input type="text" name="img" placeholder="url imagen...">
-    <input type="submit">
-</form>
-<div>
-    {{#if hay}}
-        {{#each productos}}
-            <div style="display: flex; justify-content:space-around">
-                <p>{{this.nombre}}</p>
-                <p>${{this.precio}}</p>
-                <img src={{this.img}} alt={{this.nombre}} style="height: 120px;">
-            </div>
-        {{/each}}
-        {{else}}
-        <h4>No hay productos</h4>
-    {{/if}}
-</div>
-<section>
-    <h3>Chat</h3>
-    <input type="text" id="chatBox"></input>
+<section style="background: gray;">
+    <h2>Agregar producto</h2>
+    <form action="/" method="post" id="formProductos">
+        <input type="text" name="nombre" placeholder="nombre...">
+        <input type="number" name="precio" placeholder="precio...">
+        <input type="text" name="img" placeholder="url imagen...">
+        <input type="submit">
+    </form>
+    <div>
+        {{#if hay}}
+            {{#each productos}}
+                <div id="infoProducto" style="display: flex; justify-content:space-around;">
+                    {{!-- <p>{{this.nombre}}</p>
+                    <p>${{this.precio}}</p>
+                    <img src={{this.img}} alt={{this.nombre}} style="height: 120px;"> --}}
+                </div>
+            {{/each}}
+            {{else}}
+            <h4>No hay productos</h4>
+        {{/if}}
+    </div>
+</section>
+<section style="background: gray;">
+    <h3>Centro de mensajes</h3>
+    <input type="email" id="mailBox">
     <div id="history"></div>
+    <input type="text" id="chatBox" style="display: none;"></input>
 </section>

@@ -4,13 +4,79 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Aplicacion Websockets</title>
 </head>
 <body>
     {{{body}}}
     
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="../index.js"></script>
+    <script>
+        const socket = io();
+        let user;
+        const chatBox = document.querySelector("#chatBox");
+        const mailBox = document.querySelector("#mailBox");
+        const history = document.querySelector("#history");
+        const formProductos = document.querySelector('#formProductos');
+        const infoProducto = document.querySelector('#infoProducto');
+
+        formProductos.addEventListener('submit', e => {
+            e.preventDefault();
+            const {nombre, precio, img} = e.target;
+            socket.emit('producto', {nombre: nombre.value, precio: precio.value, img: img.value})
+            nombre.value = "";
+            precio.value = "";
+            img.value = "";
+        })
+        
+        mailBox.addEventListener('keyup', e => {
+            let mail = mailBox.value.trim(); 
+            if (mail !== "" && mail.length > 6 && mail.includes('@')) {
+                if (e.key.toLowerCase() === "enter") {
+                    user = mailBox.value;
+                    socket.emit('registered', user.toLowerCase());
+                    mailBox.value = "";
+                    chatBox.removeAttribute('style');
+                }
+            }
+        })
+
+        chatBox.addEventListener("keyup", e => {
+            if (chatBox.value.trim() !== "") {
+                if (e.key.toLowerCase() === "enter") {
+                    socket.emit("message", { user: user.toLowerCase(), message: chatBox.value.trim() });
+                    chatBox.value = "";
+                }
+            }
+        });
+
+        socket.on("newUser", (data) =>
+            Swal.fire({
+                icon: "success",
+                text: `${data} has connected!`,
+                position: "top-right",
+                toast: true,
+            })
+        );
+
+        socket.on("log", (data) => {
+            let messages = "";
+            data.forEach((msg) => {
+                messages += `${msg.user}: ${msg.message} <br>`;
+            });
+            history.innerHTML = `<p>${messages}</p>`;
+        });
+
+        socket.on('productos', data => {
+            data.forEach(prod => {
+                infoProducto.innerHTML += 
+                `
+                    <p>${prod.nombre}</p>    
+                    <p>${prod.precio}</p>
+                    <img src='${prod.img} alt="${prod.nombre}"'>    
+                `
+            })
+        })
+    </script>
 </body>
 </html>
